@@ -1,0 +1,79 @@
+/******************************************************************************
+There is an m x n matrix that is initialized to all 0's. There is also a 2D array indices where each indices[i] = [ri, ci] represents a 0-indexed location to perform some increment operations on the matrix.
+
+For each location indices[i], do both of the following:
+
+Increment all the cells on row ri.
+Increment all the cells on column ci.
+Given m, n, and indices, return the number of odd-valued cells in the matrix after applying the increment to all locations in indices.
+
+Input: m = 2, n = 3, indices = [[0,1],[1,1]]
+Output: 6
+Explanation: Initial matrix = [[0,0,0],[0,0,0]].
+After applying first increment it becomes [[1,2,1],[0,1,0]].
+The final matrix is [[1,3,1],[1,3,1]], which contains 6 odd numbers.
+
+Input: m = 2, n = 2, indices = [[1,1],[0,0]]
+Output: 0
+Explanation: Final matrix = [[2,2],[2,2]]. There are no odd numbers in the final matrix.
+
+Constraints:
+
+1 <= m, n <= 50
+1 <= indices.length <= 100
+0 <= ri < m
+0 <= ci < n
+ 
+
+Follow up: Could you solve this in O(n + m + indices.length) time with only O(n + m) extra space?
+
+int rows = 3;
+int cols = 4;
+vector<vector<int>> matrix(rows, vector<int>(cols, 0)); // Fills with 0s
+
+*******************************************************************************/
+#include <bits/stdc++.h>
+using namespace std;
+class Solution {
+public:
+    int oddCells(int m, int n, vector<vector<int>>& indices) {
+        vector<vector<int>> mat(m, vector<int>(n, 0));
+        int oddCount = 0;
+        for (int i = 0; i < indices.size(); i++) {
+            int row = indices[i][0];
+            int column = 0;
+            while (column < n) {
+                mat[row][column]++;
+                column++;
+            }
+            
+            column = indices[i][1];
+            row = 0;
+            while (row < m) {
+                mat[row][column]++;
+                row++;
+            }
+        }
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] % 2 != 0) {
+                    oddCount++;
+                }
+            }
+        }
+        return oddCount;
+    }
+};
+
+
+int main()
+{
+    Solution s;
+    
+    vector<vector<int>> indices = {{1,1}, {0,0}};
+    
+    cout << "Odd values are " << s.oddCells(2, 2, indices);
+
+    return 0;
+}
