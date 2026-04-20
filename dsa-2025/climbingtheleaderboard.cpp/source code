@@ -1,0 +1,26 @@
+// i am very happy bcs i have solved using stack
+#include<iostream>
+#include<stack>
+using namespace std;
+int main()
+{
+    unsigned long n,m,temp;
+    cin>>n;
+    stack<unsigned long> scores;
+    for(int i=0;i<n;i++){
+        cin>>temp;
+        if(scores.empty()||temp!=scores.top()){
+            scores.push(temp);
+        }
+    }
+    cin>>m;
+    for(int i=0;i<m;i++){
+        cin>>temp;
+        while (!scores.empty()&&temp>=scores.top()) {
+            scores.pop();
+        // statements
+        }
+        cout<<scores.size()+1<<endl;
+    }
+    return 0;
+}

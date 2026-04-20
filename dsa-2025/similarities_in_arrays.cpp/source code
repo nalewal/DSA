@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+pair < int , int > findSimilarity(vector < int > arr1, vector < int > arr2, int n, int m) 
+{
+	// Write Your Code here.   
+//     vector<int> naya(n+m);
+    sort(arr1.begin(),arr1.end());
+    sort(arr2.begin(),arr2.end());
+    int i=0;
+    int j=0;
+    int common=0;
+    while(i<n && j<m){
+        if(arr1[i]<arr2[j]){
+            i++;
+        }
+        else if(arr1[i]>arr2[j]){
+            j++;
+        }
+        else{
+            common++;
+            i++;
+            j++;
+        }
+        
+        
+       
+    }
+    pair<int,int> ans;
+//     ans.push_back(common);
+    ans.first=common;
+    int dis=(n+m)-common;
+//     ans.push_back(dis);
+    ans.second=dis;
+    return ans;
+    
+    
+}

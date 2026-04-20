@@ -39,19 +39,72 @@ Constraints:
 using namespace std;
 class Solution {
 private:
+    void mergeArray(vector<int>& arr, int left, int right) {
+          int mid = left + (right - left) / 2;
+          int len1 = mid - left + 1;
+          int len2 = right - mid;
+
+          vector<int> leftArr(len1), rightArr(len2);
+
+          for (int i = 0; i < len1; i++) {
+               leftArr[i] = arr[left + i];
+          }
+          for (int i = 0; i < len2; i++) {
+               rightArr[i] = arr[mid + 1 + i];
+          }
+
+          int index1 = 0, index2 = 0, mainArrayIndex = left;
+
+          while (index1 < len1 && index2 < len2) {
+               if (leftArr[index1] < rightArr[index2]) {
+                    arr[mainArrayIndex++] = leftArr[index1++];
+               } else {
+                    arr[mainArrayIndex++] = rightArr[index2++];
+               }
+          }
+
+          while (index1 < len1) {
+               arr[mainArrayIndex++] = leftArr[index1++];
+          }
+          while (index2 < len2) {
+               arr[mainArrayIndex++] = rightArr[index2++];
+          }
+     }
+     void mergeSort(vector<int>& arr, int left, int right) {
+          if (left >= right) {
+               return;
+          }
+          int mid = left + (right - left) / 2;
+          mergeSort(arr, left, mid);
+          mergeSort(arr, mid + 1, right);
+          mergeArray(arr, left, right);
+     }
 	int bruitForce(vector<int>& nums, int k) { // using sort method
-		sort(nums.begin(), nums.end());
-        printArray(nums);
+		mergeSort(nums, 0, nums.size()-1);
+        // printArray(nums);
 		int result = 0;
 		for (int i = 0; i < nums.size(); i++) {
-			if (k != 0) {
-				result += (-1) * nums[i];
-				k--;
-				if (nums[i] == 0) k = 0;
-			} else {
-				result += nums[i];
-			}
+			if (k > 0 && nums[i] < 0) {
+                nums[i] = (-1) * nums[i];
+                k--;
+            }
 		}
+
+        int minIndex = 0;
+
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] < nums[minIndex]) {
+                minIndex = i;
+            }
+        }
+
+        if (k % 2 != 0) {
+            nums[minIndex] = (-1) * nums[minIndex];
+        }
+
+        for (int i = 0; i < nums.size(); i++) {
+            result += nums[i];
+        }
 		return result;
 	}
 public:
